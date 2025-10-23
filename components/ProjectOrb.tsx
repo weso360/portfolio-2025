@@ -219,7 +219,6 @@ export default function ProjectOrb({ project, onClick, onHover }: ProjectOrbProp
         anchorY="middle"
         maxWidth={8}
         textAlign="center"
-        billboard
       >
         {project.title}
       </Text>
@@ -233,7 +232,6 @@ export default function ProjectOrb({ project, onClick, onHover }: ProjectOrbProp
         anchorY="middle"
         maxWidth={10}
         textAlign="center"
-        billboard
       >
         {project.subtitle}
       </Text>
