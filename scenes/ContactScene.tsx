@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 
 export default function ContactScene() {
   const [formData, setFormData] = useState({
@@ -16,14 +17,29 @@ export default function ContactScene() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormData({ name: '', email: '', message: '' })
-    
-    setTimeout(() => setIsSubmitted(false), 3000)
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_default',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_default',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'wesleysiwela@icloud.com'
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'default_key'
+      )
+      
+      setIsSubmitted(true)
+      setFormData({ name: '', email: '', message: '' })
+      setTimeout(() => setIsSubmitted(false), 3000)
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      alert('Failed to send message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -103,7 +119,7 @@ export default function ContactScene() {
                 <input
                   type="email"
                   id="email"
-                  name="name"
+                  name="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
