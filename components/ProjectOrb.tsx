@@ -115,7 +115,9 @@ export default function ProjectOrb({ project, onClick, onHover }: ProjectOrbProp
           particleCount: 8,
           particleSize: 0.1,
           floatSpeed: 0.5,
-          rotationSpeed: 0.005
+          rotationSpeed: 0.005,
+          ringSpeed: 0.0005,
+          ringDirection: 1
         }
     }
   }
